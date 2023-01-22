@@ -102,4 +102,5 @@ class LocalNotificationService {
       onNotificationClick.add(payload);
     }
   }
+  
 }

@@ -43,30 +43,10 @@ class _HomeState extends State<Home> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      await service.showNotification(
-                          id: 0,
-                          title: 'Notification Title',
-                          body: 'Some body');
-                    },
-                    child: const Text('Show Local Notification'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await service.showScheduledNotification(
-                        id: 0,
-                        title: 'Notification Title',
-                        body: 'Some body',
-                        seconds: 4,
-                      );
-                    },
-                    child: const Text('Show Scheduled Notification'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
                       await service.showNotificationWithPayload(
                           id: 0,
-                          title: 'Notification Title',
-                          body: 'Some body',
+                          title: 'Ivan',
+                          body: 'Please see you fucking message',
                           payload: 'payload navigation');
                     },
                     child: const Text('Show Notification With Payload'),
