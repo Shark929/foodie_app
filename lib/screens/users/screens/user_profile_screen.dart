@@ -33,9 +33,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           }
           return Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               backgroundColor: buttonColor,
               elevation: 0,
-              leading: const Icon(Icons.person_add_alt_1),
               actions: const [Icon(Icons.more_horiz)],
               title: Text(controller.user['username']),
             ),
@@ -64,7 +64,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text("Phone"),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Phone: ",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            "phone",
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
@@ -72,7 +88,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(controller.user['email']),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Email: ",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            controller.user['email'],
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const Spacer(),
                     Container(

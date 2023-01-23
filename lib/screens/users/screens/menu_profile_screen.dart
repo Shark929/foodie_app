@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_app/constants/constant.dart';
 
 class MenuProfileScreen extends StatelessWidget {
   final String uid;
@@ -7,6 +8,9 @@ class MenuProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: buttonColor,
+      ),
       body: Center(
         child: Text("data"),
       ),

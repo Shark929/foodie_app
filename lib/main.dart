@@ -5,6 +5,7 @@ import 'package:foodie_app/controllers/auth_controller.dart';
 import 'package:foodie_app/screens/home.dart';
 import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/screens/users/auth/register_screen.dart';
+import 'package:foodie_app/screens/vendors/screens/vendor_register_screen.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         primaryColor: buttonColor,
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: LoginScreen(),
+      home: VendorRegisterScreen(),
     );
   }
 }

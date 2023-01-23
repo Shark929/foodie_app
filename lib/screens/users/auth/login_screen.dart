@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/screens/users/auth/register_screen.dart';
 import 'package:foodie_app/widgets/text_input.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -90,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                 const Text("Don't have an account? "),
                 GestureDetector(
                   onTap: () {
-                    print("Navigating user");
+                    Get.to(RegisterScreen());
                   },
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0),
