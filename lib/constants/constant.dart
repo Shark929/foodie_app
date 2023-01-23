@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/controllers/auth_controller.dart';
 import 'package:foodie_app/screens/users/screens/home.dart';
+import 'package:foodie_app/screens/users/screens/user_profile_screen.dart';
 import 'package:foodie_app/screens/vendors/screens/add_menu_screen.dart';
 
 //COlors
@@ -32,7 +33,9 @@ List pages = [
   Text("order"),
   AddMenuScreen(),
   Text("cart"),
-  Text("Profile"),
+  UserProfileScreen(
+    uid: authController.user.uid,
+  ),
 ];
 
 //Cuisines

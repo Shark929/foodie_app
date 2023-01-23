@@ -14,8 +14,9 @@ class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<File?> _pickedImage;
   late Rx<User?> _user;
-  File? get profilePhoto => _pickedImage.value;
 
+  File? get profilePhoto => _pickedImage.value;
+  User get user => _user.value!;
   @override
   void onReady() {
     // TODO: implement onReady
@@ -114,6 +115,11 @@ class AuthController extends GetxController {
     } catch (e) {
       Get.snackbar("Error creating an account", e.toString());
     }
+  }
+
+  //sign out user
+  void signOut() async {
+    await firebaseAuth.signOut();
   }
 
   //register vendor

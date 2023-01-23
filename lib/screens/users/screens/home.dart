@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/controllers/auth_controller.dart';
 import 'package:foodie_app/controllers/search_controller.dart';
 import 'package:foodie_app/models/menu_model.dart';
 import 'package:foodie_app/screens/users/screens/category_screen.dart';
+import 'package:foodie_app/screens/users/screens/menu_profile_screen.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
@@ -41,10 +43,13 @@ class Home extends StatelessWidget {
                       hintText: "Search ...",
                       border: InputBorder.none,
                     ),
-                    onSubmitted: (value) => searchController.searchMenu(value),
+                    onChanged: (value) {
+                      searchController.searchMenu(value);
+                    },
                   ),
                 ),
-                searchInputController.text.isEmpty
+                searchController.searchMenus.isEmpty ||
+                        searchInputController.text == ""
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -257,7 +262,11 @@ class Home extends StatelessWidget {
                         itemBuilder: (context, index) {
                           Menu menu = searchController.searchMenus[index];
                           return ListTile(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(MenuProfileScreen(
+                                uid: "",
+                              ));
+                            },
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(
                                 menu.imageUrl,
