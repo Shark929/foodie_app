@@ -107,6 +107,21 @@ const mall = [
   "Subang Parade",
 ];
 
+const LocationList = [
+  {
+    "location": "Petaling Jaya",
+    "mall": "Paradigm Mall",
+  },
+  {
+    "location": "Petaling Jaya",
+    "mall": "Jaya Shopping Center",
+  },
+  {
+    "location": "Petaling Jaya",
+    "mall": "Atria Shopping Gallery",
+  },
+];
+
 //Promotions
 const promotion = [
   {

@@ -3,6 +3,7 @@ import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/search_controller.dart';
 import 'package:foodie_app/models/menu_model.dart';
 import 'package:foodie_app/screens/users/screens/category_screen.dart';
+import 'package:foodie_app/screens/users/screens/location_screen.dart';
 import 'package:foodie_app/screens/users/screens/menu_profile_screen.dart';
 import 'package:foodie_app/screens/users/screens/promotions_screen.dart';
 import 'package:get/get.dart';
@@ -293,17 +294,25 @@ class Home extends StatelessWidget {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: location.length,
                                     itemBuilder: (context, index) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        margin:
-                                            const EdgeInsets.only(right: 10),
-                                        alignment: Alignment.center,
-                                        child: Text(location[index].toString()),
-                                        decoration: BoxDecoration(
-                                          color: buttonColor,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.to(() => LocationScreen(
+                                              location:
+                                                  location[index].toString()));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          alignment: Alignment.center,
+                                          child:
+                                              Text(location[index].toString()),
+                                          decoration: BoxDecoration(
+                                            color: buttonColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                         ),
                                       );
                                     })),
