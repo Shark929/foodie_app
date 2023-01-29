@@ -95,8 +95,7 @@ class UserWalletScreen extends StatelessWidget {
                       const Text("Balance"),
                       Row(
                         children: [
-                          Container(
-                              child: Row(
+                          Row(
                             children: const [
                               Text(
                                 "RM ",
@@ -107,7 +106,7 @@ class UserWalletScreen extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "0.00",
+                                "20.00",
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w600,
@@ -115,7 +114,7 @@ class UserWalletScreen extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )),
+                          ),
                           const Spacer(),
                           const Text("Top up"),
                         ],

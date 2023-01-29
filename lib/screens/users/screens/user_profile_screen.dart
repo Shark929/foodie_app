@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/profile_controller.dart';
+import 'package:foodie_app/screens/users/screens/order_history.dart';
 import 'package:get/get.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -36,7 +37,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               centerTitle: true,
               backgroundColor: buttonColor,
               elevation: 0,
-              actions: const [Icon(Icons.more_horiz)],
               title: Text(controller.user['username']),
             ),
             body: SafeArea(
@@ -74,7 +74,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                           ),
                           Text(
-                            "phone",
+                            "0123456789",
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -105,6 +105,41 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Divider(
+                      thickness: 2,
+                      color: Colors.grey,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(() => OrderHistory());
+                      },
+                      child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                            children: const [
+                              Text(
+                                "View order history",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios_outlined,
+                              )
+                            ],
+                          )),
                     ),
                     const Spacer(),
                     Container(

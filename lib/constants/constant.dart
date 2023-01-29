@@ -3,7 +3,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/controllers/auth_controller.dart';
+import 'package:foodie_app/controllers/vendor_auth_controller.dart';
+import 'package:foodie_app/screens/users/screens/cart_screen.dart';
+import 'package:foodie_app/screens/users/screens/cart_screen_2.dart';
 import 'package:foodie_app/screens/users/screens/home.dart';
+import 'package:foodie_app/screens/users/screens/order_screen.dart';
 import 'package:foodie_app/screens/users/screens/user_profile_screen.dart';
 import 'package:foodie_app/screens/users/screens/wallet_screen.dart';
 import 'package:foodie_app/screens/vendors/screens/add_menu_screen.dart';
@@ -31,11 +35,16 @@ var authController = AuthController.instance;
 //Pages
 List pages = [
   Home(),
-  Text("order"),
+  OrderScreen(
+    id: authController.user.uid,
+  ),
   UserWalletScreen(
     id: authController.user.uid,
   ),
-  Text("cart"),
+  CartScreen2(),
+  // CartScreen(
+  //   id: authController.user.uid,
+  // ),
   UserProfileScreen(
     uid: authController.user.uid,
   ),
@@ -59,6 +68,22 @@ const category = [
   "Soup Noodle",
   "Spaggheti",
   "Fried Rice",
+];
+
+//Customization
+const custom = [
+  {
+    "id": "Burger",
+    "custom": "Chicken Burger",
+  },
+  {
+    "id": "Burger",
+    "custom": "Beef Burger",
+  },
+  {
+    "id": "Burger",
+    "custom": "Fish Burger",
+  },
 ];
 
 //Location
@@ -103,5 +128,44 @@ const promotion = [
     "code": "COKE28",
     "percentage": 28,
     "label": "take home the taste of CNY",
+  },
+];
+
+//order
+List orders = [
+  {
+    "item_name": "Chicken Burger",
+    "item_description": "Chicken Burger",
+    "quantity": "2",
+    "item_price": "23.90",
+    "order_number": "997",
+    "time": "29/02/2023 14:13 PM",
+    "total_price": "47.80",
+  },
+  {
+    "item_name": "Chicken Burger",
+    "item_description": "Chicken Burger",
+    "quantity": "2",
+    "item_price": "23.90",
+    "order_number": "998",
+    "time": "29/02/2023 14:13 PM",
+    "total_price": "47.80",
+  }
+];
+
+List cartList = [
+  {
+    "item_name": "Chicken Burger",
+    "item_description": "Chicken Burger",
+    "quantity": "2",
+    "item_price": "23.90",
+    "total_price": "47.80",
+  },
+  {
+    "item_name": "Fish Burger",
+    "item_description": "Fish Burger",
+    "quantity": "1",
+    "item_price": "25.90",
+    "total_price": "25.90",
   },
 ];

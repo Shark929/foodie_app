@@ -4,13 +4,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:foodie_app/choose_screens.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/models/user_model.dart' as model;
-import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/screens/users/screens/home_screen.dart';
+import 'package:foodie_app/screens/vendors/screens/vendor_home_screen.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AuthController extends GetxController {
-  static AuthController instance = Get.find();
+class VendorAuthController extends GetxController {
+  static VendorAuthController instance = Get.find();
   late Rx<File?> _pickedImage;
   late Rx<User?> _user;
 
@@ -28,9 +28,9 @@ class AuthController extends GetxController {
   //set initial screen
   _setInitialScreen(User? user) {
     if (user == null) {
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => ChooseScreen());
     } else {
-      Get.offAll(() => const UserHomeScreen());
+      Get.offAll(() => const VendorHomeScreen());
     }
   }
 
@@ -83,10 +83,10 @@ class AuthController extends GetxController {
           profilePicture: downloadUrl,
           email: email,
           uid: userCredential.user!.uid,
-          code: "1",
+          code: "2",
         );
         await firebaseFirestore
-            .collection('users')
+            .collection('vendors')
             .doc(userCredential.user!.uid)
             .set(
               user.toJson(),
@@ -107,7 +107,7 @@ class AuthController extends GetxController {
           email: email,
           password: password,
         );
-        print("User Logged In");
+        print("vendor Logged In");
       } else {
         Get.snackbar("Error creating an account", "Please enter all fields");
       }
