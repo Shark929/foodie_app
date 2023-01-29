@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/screens/users/auth/register_screen.dart';
+import 'package:foodie_app/screens/users/screens/forgot_password.dart';
 import 'package:foodie_app/widgets/text_input.dart';
 import 'package:get/get.dart';
 
@@ -109,6 +110,25 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => ForgotPassword());
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: buttonColor,
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),

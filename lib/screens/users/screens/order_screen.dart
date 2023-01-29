@@ -78,8 +78,6 @@ class _OrderScreenState extends State<OrderScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                   width: 30,
@@ -87,7 +85,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: buttonColor,
+                                        width: 3,
+                                        color: Colors.amber,
                                       )),
                                 ),
                                 const Spacer(),
@@ -100,11 +99,9 @@ class _OrderScreenState extends State<OrderScreen> {
                               margin: const EdgeInsets.only(
                                 left: 13.5,
                               ),
-                              color: Colors.black,
+                              color: Colors.amber,
                             ),
                             Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                   width: 30,
@@ -112,7 +109,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: buttonColor,
+                                        width: 3,
+                                        color: Colors.black,
                                       )),
                                 ),
                                 const Spacer(),
@@ -128,8 +126,6 @@ class _OrderScreenState extends State<OrderScreen> {
                               color: Colors.black,
                             ),
                             Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              // crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
                                   width: 30,
@@ -137,7 +133,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       border: Border.all(
-                                        color: buttonColor,
+                                        color: Colors.black,
+                                        width: 3,
                                       )),
                                 ),
                                 const Spacer(),
@@ -177,10 +174,15 @@ class _OrderScreenState extends State<OrderScreen> {
                                   Text("X ${orders[index]['quantity']}")
                                 ],
                               ),
-                              trailing:
-                                  Text("RM ${orders[index]['item_price']}"),
+                              trailing: Text(
+                                "RM ${orders[index]['item_price']}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             );
-                          })
+                          }),
                     ],
                   ),
                 )),

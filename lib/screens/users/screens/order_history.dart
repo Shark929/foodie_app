@@ -9,6 +9,7 @@ class OrderHistory extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Order History"),
         backgroundColor: buttonColor,
       ),
@@ -27,6 +28,7 @@ class OrderHistory extends StatelessWidget {
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
                     return ListTile(
+                      leading: Text(orders[index]['order_number']),
                       title: Text(orders[index]['item_name']),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

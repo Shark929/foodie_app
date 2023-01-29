@@ -103,6 +103,72 @@ class Home extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            //Promotions
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            const Text(
+                              "Promotions",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              height: 120,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  itemCount: promotion.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(() => PromotionScreen(
+                                              percentage: promotion[index]
+                                                      ['percentage']
+                                                  .toString(),
+                                              label: promotion[index]['label']
+                                                  .toString(),
+                                              code: promotion[index]['code']
+                                                  .toString(),
+                                            ));
+                                      },
+                                      child: Container(
+                                        width: 120,
+                                        margin: const EdgeInsets.only(
+                                          right: 10,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                            color: buttonColor,
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            )),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              "${promotion[index]['percentage']}%",
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Text(promotion[index]['label']
+                                                .toString()),
+                                            Text(
+                                                "Code: ${promotion[index]['code']}"),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -205,12 +271,48 @@ class Home extends StatelessWidget {
                                   }),
                             ),
 
-                            //Promotions
+                            //locations
                             const SizedBox(
                               height: 30,
                             ),
                             const Text(
-                              "Promotions",
+                              "Locations",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            SizedBox(
+                                height: 50,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: location.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        child: Text(location[index].toString()),
+                                        decoration: BoxDecoration(
+                                          color: buttonColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      );
+                                    })),
+                            //malls
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            const Text(
+                              "Malls",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -220,57 +322,26 @@ class Home extends StatelessWidget {
                               height: 10,
                             ),
                             SizedBox(
-                              height: 120,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: promotion.length,
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        Get.to(() => PromotionScreen(
-                                              percentage: promotion[index]
-                                                      ['percentage']
-                                                  .toString(),
-                                              label: promotion[index]['label']
-                                                  .toString(),
-                                              code: promotion[index]['code']
-                                                  .toString(),
-                                            ));
-                                      },
-                                      child: Container(
-                                        width: 120,
-                                        margin: const EdgeInsets.only(
-                                          right: 10,
-                                        ),
+                                height: 50,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: mall.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                        ),
+                                            horizontal: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        child: Text(mall[index].toString()),
                                         decoration: BoxDecoration(
-                                            color: buttonColor,
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            )),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Text(
-                                              "${promotion[index]['percentage']}%",
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                              ),
-                                            ),
-                                            Text(promotion[index]['label']
-                                                .toString()),
-                                            Text(
-                                                "Code: ${promotion[index]['code']}"),
-                                          ],
+                                          color: buttonColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                      ),
-                                    );
-                                  }),
-                            ),
+                                      );
+                                    })),
                           ],
                         )
                       : ListView.builder(
