@@ -63,41 +63,40 @@ class AuthController extends GetxController {
   }
 
   //register user
-  void registerUser(
-      {required String username,
-      required String email,
-      required String password,
-      required File? image}) async {
-    try {
-      if (username.isNotEmpty &&
-          email.isNotEmpty &&
-          password.isNotEmpty &&
-          image != null) {
-        //save our user data into AUTH & firebase firestore
-        UserCredential userCredential = await firebaseAuth
-            .createUserWithEmailAndPassword(email: email, password: password);
-        String downloadUrl = await uploadToStorage(image);
+  // void registerUser(
+  //     {required String username,
+  //     required String email,
+  //     required String password,
+  //     required File? image}) async {
+  //   try {
+  //     if (username.isNotEmpty &&
+  //         email.isNotEmpty &&
+  //         password.isNotEmpty &&
+  //         image != null) {
+  //       //save our user data into AUTH & firebase firestore
+  //       UserCredential userCredential = await firebaseAuth
+  //           .createUserWithEmailAndPassword(email: email, password: password);
+  //       String downloadUrl = await uploadToStorage(image);
 
-        model.User user = model.User(
-          username: username,
-          profilePicture: downloadUrl,
-          email: email,
-          uid: userCredential.user!.uid,
-          code: "1",
-        );
-        await firebaseFirestore
-            .collection('users')
-            .doc(userCredential.user!.uid)
-            .set(
-              user.toJson(),
-            );
-      } else {
-        Get.snackbar("Error creating an account", "Please enter all fields");
-      }
-    } catch (e) {
-      Get.snackbar("Error creating an account", e.toString());
-    }
-  }
+  //       model.UserModel user = model.UserModel(
+  //         username: username,
+  //         profilePicture: downloadUrl,
+  //         email: email,
+  //         userId: userCredential.user!.uid,
+  //       );
+  //       await firebaseFirestore
+  //           .collection('users')
+  //           .doc(userCredential.user!.uid)
+  //           .set(
+  //             user.toJson(),
+  //           );
+  //     } else {
+  //       Get.snackbar("Error creating an account", "Please enter all fields");
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar("Error creating an account", e.toString());
+  //   }
+  // }
 
   //login user
   void loginUser({required String email, required String password}) async {

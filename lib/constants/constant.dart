@@ -3,14 +3,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/controllers/auth_controller.dart';
-import 'package:foodie_app/controllers/vendor_auth_controller.dart';
-import 'package:foodie_app/screens/users/screens/cart_screen.dart';
 import 'package:foodie_app/screens/users/screens/cart_screen_2.dart';
 import 'package:foodie_app/screens/users/screens/home.dart';
 import 'package:foodie_app/screens/users/screens/order_screen.dart';
 import 'package:foodie_app/screens/users/screens/user_profile_screen.dart';
 import 'package:foodie_app/screens/users/screens/wallet_screen.dart';
-import 'package:foodie_app/screens/vendors/screens/add_menu_screen.dart';
 
 //COlors
 const backgroundColor = Colors.white;

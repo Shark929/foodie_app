@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/item_controller.dart';
-import 'package:foodie_app/screens/users/screens/add_to_cart_screen.dart';
 import 'package:get/get.dart';
 
-class CategoryScreen extends StatelessWidget {
-  final String category;
-  const CategoryScreen({super.key, required this.category});
+class CuisineScreen extends StatelessWidget {
+  final String cuisine;
+  const CuisineScreen({super.key, required this.cuisine});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class CategoryScreen extends StatelessWidget {
         child: Scaffold(
       appBar: AppBar(
         backgroundColor: buttonColor,
-        title: Text(category),
+        title: Text(cuisine),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -28,13 +27,9 @@ class CategoryScreen extends StatelessWidget {
                       itemCount: itemController.items.length,
                       itemBuilder: (context, index) {
                         final itemModel0 = itemController.items[index];
-                        if (itemModel0.itemCategory == category) {
+                        if (itemModel0.itemCuisineType == cuisine) {
                           return ListTile(
-                            onTap: () {
-                              Get.to(() => AddToCartScreen(
-                                    item: itemModel0,
-                                  ));
-                            },
+                            onTap: () {},
                             leading: Container(
                               width: 100,
                               decoration: BoxDecoration(

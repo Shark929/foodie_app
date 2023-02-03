@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
-import 'package:foodie_app/controllers/profile_controller.dart';
-import 'package:foodie_app/screens/users/screens/order_history.dart';
+import 'package:foodie_app/controllers/user_controller.dart';
+import 'package:foodie_app/screens/users/screens/edit_profile_screen.dart';
 import 'package:get/get.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -10,155 +9,137 @@ class UserProfileScreen extends StatefulWidget {
   UserProfileScreen({super.key, required this.uid});
 
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
+  State<UserProfileScreen> createState() => _ProfileScreensState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
-  final ProfileController profileController = Get.put(ProfileController());
+class _ProfileScreensState extends State<UserProfileScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    profileController.updateUserId(widget.uid);
+    // profileController.updateUserId(widget.uid);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileController>(
-        init: ProfileController(),
-        builder: (controller) {
-          if (controller.user.isEmpty) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: buttonColor,
-              elevation: 0,
-              title: Text(controller.user['username']),
-            ),
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ClipOval(
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: controller.user['profilePicture'],
-                        height: 100,
-                        width: 100,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "Phone: ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            "0123456789",
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "Email: ",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            controller.user['email'],
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Divider(
-                      thickness: 2,
-                      color: Colors.grey,
-                      indent: 16,
-                      endIndent: 16,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => OrderHistory());
-                      },
-                      child: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                          ),
-                          child: Row(
-                            children: const [
-                              Text(
-                                "View order history",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w600),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: buttonColor,
+          title: const Text("Profile"),
+        ),
+        body: GetX<UserController>(
+            init: Get.put(UserController()),
+            builder: (UserController vendor2Controller) {
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: vendor2Controller.users.length,
+                  itemBuilder: (context, index) {
+                    final vendorModel0 = vendor2Controller.users[index];
+                    if (vendorModel0.userId == authController.user.uid) {
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios_outlined,
-                              )
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              InkWell(
+                                  onTap: () {
+                                    Get.to(() => const EditProfileScreen());
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text("Edit profile"),
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Username: ${vendorModel0.username}",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Email: ${vendorModel0.email}",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Phone: ${vendorModel0.phoneNum}",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  authController.signOut();
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: buttonColor,
+                                  ),
+                                  child: const Text(
+                                    "Logout",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
-                          )),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 32,
-                      margin: const EdgeInsets.only(
-                        bottom: 20,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          authController.signOut();
-                        },
-                        child: const Text("Logout"),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        });
+                          ),
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  });
+            }),
+      ),
+    );
   }
 }

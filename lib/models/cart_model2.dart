@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class OrderModel {
+class CartModel2 {
   late String username;
   late int quantity;
   late String customization;
   late String uid;
+  String? cartId;
   late String code;
   late String foodName;
   late String vendorId;
@@ -13,11 +14,12 @@ class OrderModel {
   late String pickupTime;
   late bool isDineIn;
 
-  OrderModel({
+  CartModel2({
     required this.username,
     required this.quantity,
     required this.customization,
     required this.uid,
+    this.cartId,
     required this.code,
     required this.foodName,
     required this.foodPic,
@@ -27,12 +29,13 @@ class OrderModel {
     required this.isDineIn,
   });
 
-  OrderModel.fromDocumentSnapshot(
+  CartModel2.fromDocumentSnapshot(
       {required DocumentSnapshot documentSnapshot}) {
     username = documentSnapshot['username'];
     quantity = documentSnapshot['quantity'];
     customization = documentSnapshot['customization'];
     uid = documentSnapshot['uid'];
+    cartId = documentSnapshot.id;
     code = documentSnapshot['code'];
     foodName = documentSnapshot['foodName'];
     foodPic = documentSnapshot['foodPic'];

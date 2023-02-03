@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodie_app/Firestore/user_firestore_db.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/models/user_model.dart';
 import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/widgets/text_input.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +92,19 @@ class RegisterScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextInputField(
+                    controller: phoneController,
+                    label: "Phone",
+                    icon: Icons.call,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextInputField(
                     controller: passwordController,
                     label: "Password",
                     icon: Icons.lock,
@@ -99,12 +115,14 @@ class RegisterScreen extends StatelessWidget {
                   height: 20,
                 ),
                 InkWell(
-                  onTap: () => authController.registerUser(
-                    username: usernameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                    image: authController.profilePhoto,
-                  ),
+                  onTap: () {
+                    final userModel = UserModel(
+                        username: usernameController.text,
+                        email: emailController.text,
+                        phoneNum: phoneController.text,
+                        profilePicture: '');
+                    UserFirestoreDb.addUser(userModel);
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width - 40,
                     height: 50,

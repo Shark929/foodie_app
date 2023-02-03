@@ -1,60 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Menu {
-  String vendorName;
-  String uid;
-  String id;
-  String foodname;
-  String foodDescription;
-  String foodPrice;
-  String cuisine;
-  String category;
-  String imageUrl;
-  int buyCount;
-  String profilePhoto;
+class ItemModel {
+  String? itemId;
+  late String itemName;
+  late String itemPrice;
+  late String itemDescription;
+  late String itemCategory;
+  late String itemPicture;
+  late String itemCuisineType;
+  late String uid;
+  late bool availabilityCode;
+  late String vendorId;
 
-  Menu({
-    required this.vendorName,
+  ItemModel({
+    this.itemId,
+    required this.itemName,
+    required this.itemPrice,
+    required this.itemDescription,
+    required this.itemCategory,
+    required this.itemPicture,
+    required this.itemCuisineType,
     required this.uid,
-    required this.id,
-    required this.foodname,
-    required this.imageUrl,
-    required this.foodDescription,
-    required this.foodPrice,
-    required this.cuisine,
-    required this.category,
-    required this.buyCount,
-    required this.profilePhoto,
+    required this.availabilityCode,
+    required this.vendorId,
   });
 
-  Map<String, dynamic> toJson() => {
-        "vendorName": vendorName,
-        "uid": uid,
-        "id": id,
-        "foodname": foodname,
-        "foodDescription": foodDescription,
-        "foodPrice": foodPrice,
-        "cuisine": cuisine,
-        "category": category,
-        "imageUrl": imageUrl,
-        "buyCount": buyCount,
-        "profilePhoto": profilePhoto,
-      };
-
-  static Menu fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
-    return Menu(
-      vendorName: snapshot['vendorName'],
-      uid: snapshot['uid'],
-      id: snapshot['id'],
-      foodname: snapshot['foodname'],
-      foodDescription: snapshot['foodDescription'],
-      foodPrice: snapshot['foodPrice'],
-      cuisine: snapshot['cuisine'],
-      category: snapshot['category'],
-      imageUrl: snapshot['imageUrl'],
-      buyCount: snapshot['buyCount'],
-      profilePhoto: snapshot['profilePhoto'],
-    );
+  ItemModel.fromDocumentSnapshot({required DocumentSnapshot documentSnapshot}) {
+    itemId = documentSnapshot.id;
+    itemName = documentSnapshot['itemName'];
+    itemPrice = documentSnapshot['itemPrice'];
+    itemDescription = documentSnapshot['itemDescription'];
+    itemCategory = documentSnapshot['itemCategory'];
+    itemPicture = documentSnapshot['itemPicture'];
+    itemCuisineType = documentSnapshot['itemCuisineType'];
+    uid = documentSnapshot['uid'];
+    availabilityCode = documentSnapshot['availabilityCode'];
+    vendorId = documentSnapshot['vendorId'];
   }
 }
