@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/Firestore/user_firestore_db.dart';
+import 'package:foodie_app/Firestore/wallet_firestore_db.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/models/user_model.dart';
+import 'package:foodie_app/models/wallet_model.dart';
 import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/widgets/text_input.dart';
 import 'package:get/get.dart';
@@ -122,6 +124,10 @@ class RegisterScreen extends StatelessWidget {
                         phoneNum: phoneController.text,
                         profilePicture: '');
                     UserFirestoreDb.addUser(userModel);
+
+                    // final walletModel = WalletModel(
+                    //     balance: "0", userId: authController.user.uid);
+                    // WalletFirestoreDb.addWallet(walletModel);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width - 40,
