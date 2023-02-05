@@ -49,6 +49,14 @@ class UserFirestoreDb {
     );
   }
 
+  static updateImage(String downloadUrl, documentId) {
+    firebaseFirestore.collection('users').doc(documentId).update(
+      {
+        'profilePicture': downloadUrl,
+      },
+    );
+  }
+
   //delete
   static deleteUser(String documentId) {
     firebaseFirestore.collection('users').doc(documentId).delete();

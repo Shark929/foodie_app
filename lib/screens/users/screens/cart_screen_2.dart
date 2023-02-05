@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/Firestore/cart_firestore_db.dart';
 import 'package:foodie_app/Firestore/order_firestore.dart';
+import 'package:foodie_app/Firestore/transaction_firestore_db.dart';
+import 'package:foodie_app/Firestore/wallet_firestore_db.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/cart_controller2.dart';
+import 'package:foodie_app/controllers/wallet_controller.dart';
 import 'package:foodie_app/models/cart_model2.dart';
+import 'package:foodie_app/models/transaction_model.dart';
 import 'package:foodie_app/screens/users/screens/home_screen.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +24,9 @@ class _CartScreen2State extends State<CartScreen2> {
   String isDineIn = "1";
   String documentId = "";
   List<CartModel2> vendorCart = [];
+  List transaction = [];
   List documentIdList = [];
+  double myWalletBalance = 0.0;
   @override
   Widget build(BuildContext context) {
     final hours = setTime.hour.toString().padLeft(2, '0');
@@ -34,11 +41,36 @@ class _CartScreen2State extends State<CartScreen2> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            GetX<WalletController>(
+                init: Get.put(WalletController()),
+                builder: (WalletController walletController) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: walletController.wallet.length,
+                    itemBuilder: (context, index) {
+                      final walley0 = walletController.wallet[index];
+                      if (walley0.userId == authController.user.uid) {
+                        myWalletBalance = double.parse(walley0.balance);
+                        return const SizedBox();
+                      }
+                      return const SizedBox();
+                    },
+                  );
+                }),
             GetX<CartController2>(
                 init: Get.put(CartController2()),
                 builder: (CartController2 cartController2) {
                   if (cartController2.cart.isEmpty) {
-                    return const Center(child: Text("Empty cart"));
+                    return Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        SizedBox(
+                          height: 300,
+                        ),
+                        Text("Empty cart"),
+                      ],
+                    ));
                   } else {
                     return Stack(
                       children: [
@@ -62,6 +94,12 @@ class _CartScreen2State extends State<CartScreen2> {
                                     documentIdList.length <
                                         cartController2.cart.length) {
                                   documentIdList.add(cartModel0.cartId);
+                                }
+
+                                if (transaction.isEmpty ||
+                                    transaction.length <
+                                        cartController2.cart.length) {
+                                  transaction.add(totalPrice);
                                 }
                                 return ListTile(
                                   leading: Container(
@@ -305,22 +343,76 @@ class _CartScreen2State extends State<CartScreen2> {
                               ),
                               GestureDetector(
                                 onTap: () {
+                                  //calculate total payment
+
+                                  double totalPayment = 0;
+                                  for (var ele in transaction) {
+                                    totalPayment += ele;
+                                  }
                                   //add to cart
 
-                                  for (var ele in vendorCart) {
-                                    OrderFirestoreDb.addToVendorCart(ele);
-                                  }
+                                  //update wallet balance
 
-                                  for (var docEle in documentIdList) {
-                                    CartFirestore.deleteCart(docEle);
-                                  }
+                                  if (myWalletBalance < totalPayment) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => Dialog(
+                                              child: SizedBox(
+                                                height: 200,
+                                                width: 200,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.error,
+                                                      size: 100,
+                                                      color: Colors.red,
+                                                    ),
+                                                    Text(
+                                                      "Insufficient balance",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ));
+                                  } else {
+                                    for (var ele in vendorCart) {
+                                      OrderFirestoreDb.addToVendorCart(ele);
+                                    }
 
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UserHomeScreen()),
-                                      (route) => false);
+                                    for (var docEle in documentIdList) {
+                                      CartFirestore.deleteCart(docEle);
+                                    }
+
+                                    final transactionModel = TransactionModel(
+                                        date:
+                                            Timestamp.fromDate(DateTime.now()),
+                                        amount: totalPayment.toStringAsFixed(2),
+                                        code: 2,
+                                        uid: authController.user.uid);
+                                    TransactionFirestoreDb.addTransaction(
+                                        transactionModel);
+                                    double updateMyBalance =
+                                        myWalletBalance - totalPayment;
+
+                                    WalletFirestoreDb.updateAmount(
+                                        updateMyBalance.toStringAsFixed(2),
+                                        authController.user.uid);
+                                    print(updateMyBalance);
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const UserHomeScreen()),
+                                        (route) => false);
+                                  }
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
