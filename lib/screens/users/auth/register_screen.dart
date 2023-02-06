@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/Firestore/user_firestore_db.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/controllers/auth_controller.dart';
 import 'package:foodie_app/models/user_model.dart';
 import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/widgets/text_input.dart';
@@ -12,6 +13,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +42,26 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                          "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"),
-                    ),
-                    Positioned(
-                      bottom: -10,
-                      left: 60,
-                      child: IconButton(
-                        onPressed: () => authController.pickImage(),
-                        icon: const Icon(
-                          Icons.add_a_photo,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // Stack(
+                //   children: [
+                //     const CircleAvatar(
+                //       radius: 50,
+                //       backgroundImage: NetworkImage(
+                //           "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"),
+                //     ),
+                //     Positioned(
+                //       bottom: -10,
+                //       left: 60,
+                //       child: IconButton(
+                //         onPressed: () => authController.pickImage(),
+                //         icon: const Icon(
+                //           Icons.add_a_photo,
+                //           color: Colors.black,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -116,16 +118,18 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    final userModel = UserModel(
+                    // final userModel = UserModel(
+                    //     username: usernameController.text,
+                    //     email: emailController.text,
+                    //     phoneNum: phoneController.text,
+                    //     profilePicture: '');
+                    // UserFirestoreDb.addUser(userModel);
+
+                    authController.registerUser(
                         username: usernameController.text,
                         email: emailController.text,
                         phoneNum: phoneController.text,
-                        profilePicture: '');
-                    UserFirestoreDb.addUser(userModel);
-
-                    // final walletModel = WalletModel(
-                    //     balance: "0", userId: authController.user.uid);
-                    // WalletFirestoreDb.addWallet(walletModel);
+                        password: passwordController.text);
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width - 40,

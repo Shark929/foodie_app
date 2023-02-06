@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:foodie_app/Firestore/user_firestore_db.dart';
 import 'package:foodie_app/choose_screens.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/models/user_model.dart' as model;
+import 'package:foodie_app/models/user_model.dart';
 import 'package:foodie_app/screens/users/auth/login_screen.dart';
 import 'package:foodie_app/screens/users/screens/home_screen.dart';
 import 'package:get/get.dart';
@@ -63,40 +65,48 @@ class AuthController extends GetxController {
   }
 
   //register user
-  // void registerUser(
-  //     {required String username,
-  //     required String email,
-  //     required String password,
-  //     required File? image}) async {
-  //   try {
-  //     if (username.isNotEmpty &&
-  //         email.isNotEmpty &&
-  //         password.isNotEmpty &&
-  //         image != null) {
-  //       //save our user data into AUTH & firebase firestore
-  //       UserCredential userCredential = await firebaseAuth
-  //           .createUserWithEmailAndPassword(email: email, password: password);
-  //       String downloadUrl = await uploadToStorage(image);
+  void registerUser({
+    required String username,
+    required String email,
+    required String phoneNum,
+    required String password,
+  }) async {
+    try {
+      if (username.isNotEmpty &&
+          email.isNotEmpty &&
+          password.isNotEmpty &&
+          phoneNum.isNotEmpty) {
+        //save our user data into AUTH & firebase firestore
+        UserCredential userCredential = await firebaseAuth
+            .createUserWithEmailAndPassword(email: email, password: password);
+        // String downloadUrl = await uploadToStorage(image);
 
-  //       model.UserModel user = model.UserModel(
-  //         username: username,
-  //         profilePicture: downloadUrl,
-  //         email: email,
-  //         userId: userCredential.user!.uid,
-  //       );
-  //       await firebaseFirestore
-  //           .collection('users')
-  //           .doc(userCredential.user!.uid)
-  //           .set(
-  //             user.toJson(),
-  //           );
-  //     } else {
-  //       Get.snackbar("Error creating an account", "Please enter all fields");
-  //     }
-  //   } catch (e) {
-  //     Get.snackbar("Error creating an account", e.toString());
-  //   }
-  // }
+        final userModel = UserModel(
+            userId: userCredential.user!.uid,
+            username: username,
+            email: email,
+            phoneNum: phoneNum,
+            profilePicture: '');
+        UserFirestoreDb.addUser(userModel);
+        // model.UserModel user = model.UserModel(
+        //   username: username,
+        //   profilePicture: downloadUrl,
+        //   email: email,
+        //   userId: userCredential.user!.uid,
+        // );
+        // await firebaseFirestore
+        //     .collection('users')
+        //     .doc(userCredential.user!.uid)
+        //     .set(
+        //       user.toJson(),
+        //     );
+      } else {
+        Get.snackbar("Error creating an account", "Please enter all fields");
+      }
+    } catch (e) {
+      Get.snackbar("Error creating an account", e.toString());
+    }
+  }
 
   //login user
   void loginUser({required String email, required String password}) async {
