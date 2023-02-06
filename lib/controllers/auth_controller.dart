@@ -87,7 +87,7 @@ class AuthController extends GetxController {
             email: email,
             phoneNum: phoneNum,
             profilePicture: '');
-        UserFirestoreDb.addUser(userModel);
+        UserFirestoreDb.addUser(userModel, userCredential.user!.uid);
         // model.UserModel user = model.UserModel(
         //   username: username,
         //   profilePicture: downloadUrl,

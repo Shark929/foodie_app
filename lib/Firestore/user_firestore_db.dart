@@ -4,12 +4,13 @@ import 'package:foodie_app/models/user_model.dart';
 
 class UserFirestoreDb {
   //create
-  static addUser(UserModel userModel) async {
-    await firebaseFirestore.collection('users').add({
+  static addUser(UserModel userModel, String uid) async {
+    await firebaseFirestore.collection('users').doc(uid).set({
       'username': userModel.username,
       'email': userModel.email,
       'phoneNum': userModel.phoneNum,
       'profilePicture': userModel.profilePicture,
+      'uid': uid,
     });
   }
 
