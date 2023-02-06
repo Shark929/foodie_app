@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/controllers/location_controller.dart';
+import 'package:foodie_app/controllers/mall_controller.dart';
 import 'package:foodie_app/screens/users/screens/mall_screen.dart';
 import 'package:get/get.dart';
 
@@ -37,17 +39,22 @@ class LocationScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: LocationList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        onTap: () {
-                          Get.to(() => MallScreen(
-                              mall: LocationList[index]['mall'].toString()));
-                        },
-                        title: Text(LocationList[index]['mall'].toString()),
-                      );
+                GetX<MallController>(
+                    init: Get.put(MallController()),
+                    builder: (MallController mcController) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: mcController.mall.length,
+                          itemBuilder: (context, index) {
+                            final lcModel0 = mcController.mall[index];
+                            if (lcModel0.location == location) {
+                              return ListTile(
+                                onTap: () {},
+                                title: Text(lcModel0.mall),
+                              );
+                            }
+                            return const SizedBox();
+                          });
                     })
               ],
             ),

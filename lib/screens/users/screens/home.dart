@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/controllers/location_controller.dart';
+import 'package:foodie_app/controllers/mall_controller.dart';
 import 'package:foodie_app/screens/users/screens/category_screen.dart';
+import 'package:foodie_app/screens/users/screens/chatroom_screen.dart';
 import 'package:foodie_app/screens/users/screens/cuisine_screen.dart';
 import 'package:foodie_app/screens/users/screens/location_screen.dart';
+import 'package:foodie_app/screens/users/screens/mall_screen.dart';
 import 'package:foodie_app/screens/users/screens/promotions_screen.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +22,13 @@ class Home extends StatelessWidget {
           title: const Text("Foodie"),
           backgroundColor: buttonColor,
           elevation: 0,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Get.to(() => ChatRoom());
+                },
+                icon: Icon(Icons.chat))
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -54,54 +65,6 @@ class Home extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage("assets/dine.jpg"),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            const Text("Dine In"),
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 80,
-                              height: 80,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage("assets/take.jpg"),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            const Text("Take Away"),
-                          ],
-                        ),
-                      ],
-                    ),
                     //Promotions
                     const SizedBox(
                       height: 30,
@@ -289,28 +252,36 @@ class Home extends StatelessWidget {
 
                     SizedBox(
                         height: 50,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: location.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Get.to(() => LocationScreen(
-                                      location: location[index].toString()));
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  margin: const EdgeInsets.only(right: 10),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: buttonColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(location[index].toString()),
-                                ),
-                              );
+                        child: GetX<LocationController>(
+                            init: Get.put(LocationController()),
+                            builder: (LocationController lcController) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: lcController.location.length,
+                                  itemBuilder: (context, index) {
+                                    final lcModel0 =
+                                        lcController.location[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(() => LocationScreen(
+                                            location: lcModel0.locationName));
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: buttonColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Text(lcModel0.locationName),
+                                      ),
+                                    );
+                                  });
                             })),
                     //malls
                     const SizedBox(
@@ -328,23 +299,39 @@ class Home extends StatelessWidget {
                     ),
                     SizedBox(
                         height: 50,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: mall.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                margin: const EdgeInsets.only(right: 10),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: buttonColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(mall[index].toString()),
-                              );
+                        child: GetX<MallController>(
+                            init: Get.put(MallController()),
+                            builder: (MallController mcController) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: mcController.mall.length,
+                                  itemBuilder: (context, index) {
+                                    final mcModel0 = mcController.mall[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(() =>
+                                            MallScreen(mall: mcModel0.mall));
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: buttonColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Text(mcModel0.mall),
+                                      ),
+                                    );
+                                  });
                             })),
+                    const SizedBox(
+                      height: 30,
+                    ),
                   ],
                 )
               ],

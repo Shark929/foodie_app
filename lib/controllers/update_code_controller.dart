@@ -11,6 +11,7 @@ class UpdateController extends GetxController {
 
   RxInt updateNum(RxInt num) {
     count = num;
+
     return count;
   }
 }

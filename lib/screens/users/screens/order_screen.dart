@@ -35,6 +35,30 @@ class _OrderScreenState extends State<OrderScreen> {
     }
   }
 
+  void orderAcceptedNoti() async {
+    await service.showNotificationWithPayload(
+        id: 0,
+        title: 'Foodie',
+        body: 'Vendor has accept your order',
+        payload: 'payload navigation');
+  }
+
+  void preparingNoti() async {
+    await service.showNotificationWithPayload(
+        id: 0,
+        title: 'Foodie',
+        body: 'Vendor is preparing your foods',
+        payload: 'payload navigation');
+  }
+
+  void orderCompletedNoti() async {
+    await service.showNotificationWithPayload(
+        id: 0,
+        title: 'Foodie',
+        body: 'Your order is completed',
+        payload: 'payload navigation');
+  }
+
   @override
   Widget build(BuildContext context) {
     final updateController = Get.put(UpdateController());
@@ -64,9 +88,19 @@ class _OrderScreenState extends State<OrderScreen> {
                 init: Get.put(OrderController()),
                 builder: (OrderController orderController) {
                   for (int i = 0; i < orderController.cartList.length; i++) {
+                    if (orderController.cartList[i].code == "2") {
+                      orderAcceptedNoti();
+                    }
+                    if (orderController.cartList[i].code == "3") {
+                      preparingNoti();
+                    }
+                    if (orderController.cartList[i].code == "4") {
+                      orderCompletedNoti();
+                    }
+
                     if (orderController.cartList[i].uid ==
                             authController.user.uid &&
-                        orderController.cartList[i].code != "4") {
+                        orderController.cartList[i].code != "5") {
                       return Column(
                         children: [
                           GetX<UpdateController>(
