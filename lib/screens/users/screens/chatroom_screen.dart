@@ -32,15 +32,19 @@ class ChatRoom extends StatelessWidget {
 
             //filter
 
-            return ListTile(
-                onTap: () {
-                  Get.to(() => ChatScreen(
-                      vendorId: user[0],
-                      customerId: authController.user.uid,
-                      chatRoomId: chatroom));
-                },
-                tileColor: Colors.amber,
-                title: Text("New message"));
+            if (user.isEmpty) {
+              return const Center(child: Text("No chat"));
+            } else {
+              return ListTile(
+                  onTap: () {
+                    Get.to(() => ChatScreen(
+                        vendorId: user[0],
+                        customerId: authController.user.uid,
+                        chatRoomId: chatroom));
+                  },
+                  tileColor: Colors.amber,
+                  title: const Text("New message"));
+            }
           }),
     ));
   }

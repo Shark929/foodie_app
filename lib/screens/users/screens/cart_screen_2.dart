@@ -11,6 +11,7 @@ import 'package:foodie_app/models/cart_model2.dart';
 import 'package:foodie_app/models/transaction_model.dart';
 import 'package:foodie_app/screens/users/screens/home_screen.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CartScreen2 extends StatefulWidget {
   const CartScreen2({super.key});
@@ -23,14 +24,29 @@ class _CartScreen2State extends State<CartScreen2> {
   TimeOfDay setTime = const TimeOfDay(hour: 10, minute: 30);
   String isDineIn = "1";
   String documentId = "";
+  String hours = "";
+  String minutes = "";
   List<CartModel2> vendorCart = [];
   List transaction = [];
   List documentIdList = [];
   double myWalletBalance = 0.0;
+
+  _launchURL() async {
+    const url =
+        'https://www2.pbebank.com/myIBK/apppbb/servlet/BxxxServlet?RDOName=BxxxAuth&MethodName=login';
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final hours = setTime.hour.toString().padLeft(2, '0');
-    final minutes = setTime.minute.toString().padLeft(2, '0');
+    // hours = setTime.hour.toString().padLeft(2, '0');
+    // minutes = setTime.minute.toString().padLeft(2, '0');
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -265,7 +281,9 @@ class _CartScreen2State extends State<CartScreen2> {
                                           height: 50,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            hours,
+                                            setTime.hour
+                                                .toString()
+                                                .padLeft(2, '0'),
                                             style: const TextStyle(
                                               fontSize: 24,
                                               fontWeight: FontWeight.w600,
@@ -297,7 +315,9 @@ class _CartScreen2State extends State<CartScreen2> {
                                           height: 50,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            minutes,
+                                            setTime.minute
+                                                .toString()
+                                                .padLeft(2, '0'),
                                             style: const TextStyle(
                                               fontSize: 24,
                                               fontWeight: FontWeight.w600,
@@ -325,14 +345,19 @@ class _CartScreen2State extends State<CartScreen2> {
                                       setState(() {
                                         setTime = newTime;
                                       });
+                                      for (var docEle in documentIdList) {
+                                        CartFirestore.updateTime(
+                                            "${setTime.hour.toString().padLeft(2, '0')}: ${setTime.minute.toString().padLeft(2, '0')}",
+                                            docEle);
+                                      }
                                       vendorCart.clear();
                                       documentIdList.clear();
 
-                                      for (var docEle in documentIdList) {
-                                        CartFirestore.updateTime(
-                                            "${newTime.hour}: ${newTime.minute}",
-                                            docEle);
-                                      }
+                                      // for (var docEle in documentIdList) {
+                                      //   CartFirestore.updateTime(
+                                      //       "${setTime.hour}: ${setTime.minute}",
+                                      //       docEle);
+                                      // }
                                     },
                                     child: const Text("Set time"),
                                   ),
@@ -343,76 +368,195 @@ class _CartScreen2State extends State<CartScreen2> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  //calculate total payment
-
-                                  double totalPayment = 0;
-                                  for (var ele in transaction) {
-                                    totalPayment += ele;
-                                  }
-                                  //add to cart
-
-                                  //update wallet balance
-
-                                  if (myWalletBalance < totalPayment) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => Dialog(
-                                              child: SizedBox(
-                                                height: 200,
-                                                width: 200,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.error,
-                                                      size: 100,
-                                                      color: Colors.red,
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => Dialog(
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              height: 300,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  const Text(
+                                                    "Payment method",
+                                                    style: TextStyle(
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
-                                                    Text(
-                                                      "Insufficient balance",
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          //calculate total payment
+
+                                                          double totalPayment =
+                                                              0;
+                                                          for (var ele
+                                                              in transaction) {
+                                                            totalPayment += ele;
+                                                          }
+                                                          //add to cart
+
+                                                          //update wallet balance
+
+                                                          if (myWalletBalance <
+                                                              totalPayment) {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        Dialog(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            height:
+                                                                                200,
+                                                                            width:
+                                                                                200,
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                              children: const [
+                                                                                Icon(
+                                                                                  Icons.error,
+                                                                                  size: 100,
+                                                                                  color: Colors.red,
+                                                                                ),
+                                                                                Text(
+                                                                                  "Insufficient balance",
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 16,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ));
+                                                          } else {
+                                                            for (var ele
+                                                                in vendorCart) {
+                                                              OrderFirestoreDb
+                                                                  .addToVendorCart(
+                                                                      ele);
+                                                            }
+
+                                                            for (var docEle
+                                                                in documentIdList) {
+                                                              CartFirestore
+                                                                  .deleteCart(
+                                                                      docEle);
+                                                            }
+
+                                                            final transactionModel = TransactionModel(
+                                                                date: Timestamp
+                                                                    .fromDate(
+                                                                        DateTime
+                                                                            .now()),
+                                                                amount: totalPayment
+                                                                    .toStringAsFixed(
+                                                                        2),
+                                                                code: 2,
+                                                                uid:
+                                                                    authController
+                                                                        .user
+                                                                        .uid);
+                                                            TransactionFirestoreDb
+                                                                .addTransaction(
+                                                                    transactionModel);
+                                                            double
+                                                                updateMyBalance =
+                                                                myWalletBalance -
+                                                                    totalPayment;
+
+                                                            WalletFirestoreDb
+                                                                .updateAmount(
+                                                                    updateMyBalance
+                                                                        .toStringAsFixed(
+                                                                            2),
+                                                                    authController
+                                                                        .user
+                                                                        .uid);
+
+                                                            Navigator.pushAndRemoveUntil(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            const UserHomeScreen()),
+                                                                (route) =>
+                                                                    false);
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 120,
+                                                          height: 50,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color:
+                                                                  buttonColor),
+                                                          child: const Text(
+                                                            "Pay now",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
+                                                      const Spacer(),
+                                                      InkWell(
+                                                        onTap: _launchURL,
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 120,
+                                                          height: 50,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: buttonColor,
+                                                          ),
+                                                          child: const Text(
+                                                            "Pay online",
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
-                                            ));
-                                  } else {
-                                    for (var ele in vendorCart) {
-                                      OrderFirestoreDb.addToVendorCart(ele);
-                                    }
-
-                                    for (var docEle in documentIdList) {
-                                      CartFirestore.deleteCart(docEle);
-                                    }
-
-                                    final transactionModel = TransactionModel(
-                                        date:
-                                            Timestamp.fromDate(DateTime.now()),
-                                        amount: totalPayment.toStringAsFixed(2),
-                                        code: 2,
-                                        uid: authController.user.uid);
-                                    TransactionFirestoreDb.addTransaction(
-                                        transactionModel);
-                                    double updateMyBalance =
-                                        myWalletBalance - totalPayment;
-
-                                    WalletFirestoreDb.updateAmount(
-                                        updateMyBalance.toStringAsFixed(2),
-                                        authController.user.uid);
-                                    print(updateMyBalance);
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const UserHomeScreen()),
-                                        (route) => false);
-                                  }
+                                            ),
+                                          ));
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,

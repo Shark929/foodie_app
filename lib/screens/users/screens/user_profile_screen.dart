@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/user_controller.dart';
 import 'package:foodie_app/screens/users/screens/edit_profile_screen.dart';
+import 'package:foodie_app/screens/users/screens/order_history.dart';
+import 'package:foodie_app/screens/users/screens/user_order_history.dart';
 import 'package:get/get.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -111,6 +113,24 @@ class _ProfileScreensState extends State<UserProfileScreen> {
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => OrderHistoryScreen());
+                                },
+                                child: const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Order history",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                   ),
                                 ),
                               ),
