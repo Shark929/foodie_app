@@ -9,7 +9,7 @@ class TransactionFirestoreDb {
       'amount': transactionModel.amount,
       'code': transactionModel.code,
       'date': transactionModel.date,
-      'uid': authController.user.uid,
+      'uid': transactionModel.uid,
     });
   }
 

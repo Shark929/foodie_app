@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:foodie_app/Firestore/user_firestore_db.dart';
-import 'package:foodie_app/choose_screens.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/models/user_model.dart' as model;
 import 'package:foodie_app/models/user_model.dart';

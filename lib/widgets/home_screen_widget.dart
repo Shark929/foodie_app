@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/mall_controller.dart';
+import 'package:foodie_app/controllers/promotion_controller.dart';
 import 'package:foodie_app/screens/users/screens/category_screen.dart';
 import 'package:foodie_app/screens/users/screens/cuisine_screen.dart';
 import 'package:foodie_app/screens/users/screens/location_screen.dart';
@@ -18,6 +19,92 @@ class HomeScreenWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        //locations
+        const SizedBox(
+          height: 30,
+        ),
+        const Text(
+          "Locations",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+
+        SizedBox(
+            height: 50,
+            child: GetX<LocationController>(
+                init: Get.put(LocationController()),
+                builder: (LocationController lcController) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: lcController.location.length,
+                      itemBuilder: (context, index) {
+                        final lcModel0 = lcController.location[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.to(() => LocationScreen(
+                                location: lcModel0.locationName));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.only(right: 10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: buttonColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(lcModel0.locationName),
+                          ),
+                        );
+                      });
+                })),
+        //malls
+        const SizedBox(
+          height: 30,
+        ),
+        const Text(
+          "Malls",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+            height: 50,
+            child: GetX<MallController>(
+                init: Get.put(MallController()),
+                builder: (MallController mcController) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: mcController.mall.length,
+                      itemBuilder: (context, index) {
+                        final mcModel0 = mcController.mall[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.to(() => MallScreen(mall: mcModel0.mall));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            margin: const EdgeInsets.only(right: 10),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: buttonColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(mcModel0.mall),
+                          ),
+                        );
+                      });
+                })),
         //Promotions
         const SizedBox(
           height: 30,
@@ -34,47 +121,52 @@ class HomeScreenWidget extends StatelessWidget {
         ),
         SizedBox(
           height: 120,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: promotion.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Get.to(() => PromotionScreen(
-                          percentage: promotion[index]['percentage'].toString(),
-                          label: promotion[index]['label'].toString(),
-                          code: promotion[index]['code'].toString(),
-                        ));
-                  },
-                  child: Container(
-                    width: 120,
-                    margin: const EdgeInsets.only(
-                      right: 10,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                    ),
-                    decoration: BoxDecoration(
-                        color: buttonColor,
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "${promotion[index]['percentage']}%",
-                          style: const TextStyle(
-                            fontSize: 20,
+          child: GetX<PromotionController>(
+              init: Get.put(PromotionController()),
+              builder: (PromotionController pController) {
+                return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: pController.promotion.length,
+                    itemBuilder: (context, index) {
+                      final pModel0 = pController.promotion[index];
+                      return InkWell(
+                        onTap: () {
+                          Get.to(() => PromotionScreen(
+                                percentage: pModel0.promotionPercentage,
+                                label: pModel0.promotionLabel,
+                                code: pModel0.promotionCode,
+                              ));
+                        },
+                        child: Container(
+                          width: 120,
+                          margin: const EdgeInsets.only(
+                            right: 10,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          decoration: BoxDecoration(
+                              color: buttonColor,
+                              borderRadius: BorderRadius.circular(
+                                10,
+                              )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "${pModel0.promotionPercentage}%",
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(pModel0.promotionLabel),
+                              Text("Code: ${pModel0.promotionCode}"),
+                            ],
                           ),
                         ),
-                        Text(promotion[index]['label'].toString()),
-                        Text("Code: ${promotion[index]['code']}"),
-                      ],
-                    ),
-                  ),
-                );
+                      );
+                    });
               }),
         ),
         const SizedBox(
@@ -185,92 +277,6 @@ class HomeScreenWidget extends StatelessWidget {
               }),
         ),
 
-        //locations
-        const SizedBox(
-          height: 30,
-        ),
-        const Text(
-          "Locations",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-
-        SizedBox(
-            height: 50,
-            child: GetX<LocationController>(
-                init: Get.put(LocationController()),
-                builder: (LocationController lcController) {
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: lcController.location.length,
-                      itemBuilder: (context, index) {
-                        final lcModel0 = lcController.location[index];
-                        return InkWell(
-                          onTap: () {
-                            Get.to(() => LocationScreen(
-                                location: lcModel0.locationName));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            margin: const EdgeInsets.only(right: 10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: buttonColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(lcModel0.locationName),
-                          ),
-                        );
-                      });
-                })),
-        //malls
-        const SizedBox(
-          height: 30,
-        ),
-        const Text(
-          "Malls",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-            height: 50,
-            child: GetX<MallController>(
-                init: Get.put(MallController()),
-                builder: (MallController mcController) {
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: mcController.mall.length,
-                      itemBuilder: (context, index) {
-                        final mcModel0 = mcController.mall[index];
-                        return InkWell(
-                          onTap: () {
-                            Get.to(() => MallScreen(mall: mcModel0.mall));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            margin: const EdgeInsets.only(right: 10),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: buttonColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(mcModel0.mall),
-                          ),
-                        );
-                      });
-                })),
         const SizedBox(
           height: 30,
         ),

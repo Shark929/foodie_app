@@ -29,28 +29,34 @@ class CategoryScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final itemModel0 = itemController.items[index];
                         if (itemModel0.itemCategory == category) {
-                          return ListTile(
-                            onTap: () {
-                              Get.to(() => AddToCartScreen(
-                                    item: itemModel0,
-                                  ));
-                            },
-                            leading: Container(
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(itemModel0.itemPicture),
-                                    fit: BoxFit.cover,
-                                  )),
+                          return Container(
+                            margin: const EdgeInsets.only(
+                              bottom: 10,
                             ),
-                            title: Text(itemModel0.itemName),
-                            subtitle: Text(itemModel0.itemDescription),
-                            trailing: Text(
-                              "RM ${double.parse(itemModel0.itemPrice).toStringAsFixed(2)}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                            child: ListTile(
+                              onTap: () {
+                                Get.to(() => AddToCartScreen(
+                                      item: itemModel0,
+                                    ));
+                              },
+                              leading: Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image:
+                                          NetworkImage(itemModel0.itemPicture),
+                                      fit: BoxFit.cover,
+                                    )),
+                              ),
+                              title: Text(itemModel0.itemName),
+                              subtitle: Text(itemModel0.itemDescription),
+                              trailing: Text(
+                                "RM ${double.parse(itemModel0.itemPrice).toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           );

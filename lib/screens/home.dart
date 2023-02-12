@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:foodie_app/screens/second_screen.dart';
 import 'package:foodie_app/services/local_push_notification.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class NotiHom extends StatefulWidget {
+  const NotiHom({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<NotiHom> createState() => _NotiHomState();
 }
 
-class _HomeState extends State<Home> {
+class _NotiHomState extends State<NotiHom> {
   late final LocalNotificationService service;
 
   @override

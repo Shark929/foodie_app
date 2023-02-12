@@ -38,7 +38,7 @@ class PromotionScreen extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                "${percentage}%",
+                "$percentage%",
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -49,11 +49,13 @@ class PromotionScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    code,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
+                  Expanded(
+                    child: Text(
+                      code,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -66,7 +68,7 @@ class PromotionScreen extends StatelessWidget {
                               content: Text("$code copied to clipboard")));
                         });
                       },
-                      icon: Icon(Icons.copy)),
+                      icon: const Icon(Icons.copy)),
                 ],
               ),
             ],

@@ -1,12 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:foodie_app/Firestore/cart_firestore_db.dart';
+import 'package:foodie_app/Firestore/add_to_my_cart_firestore_db.dart';
 import 'package:foodie_app/constants/constant.dart';
-import 'package:foodie_app/controllers/cart_controller.dart';
-import 'package:foodie_app/models/cart_model2.dart';
 import 'package:foodie_app/models/menu_model.dart';
-
+import 'package:foodie_app/models/my_cart_model.dart';
 import 'package:foodie_app/screens/users/screens/home_screen.dart';
 import 'package:get/get.dart';
 
@@ -19,157 +15,172 @@ class AddToCartScreen extends StatefulWidget {
 }
 
 class _AddToCartScreenState extends State<AddToCartScreen> {
-  final isCheck = [];
   int quantity = 1;
-  String customization = "";
-  CartController cartController = Get.put(CartController());
+  var customizationList = [];
+  String getCustomization = "";
   @override
   Widget build(BuildContext context) {
-    cartController.updateId(
-      id: authController.user.uid,
-    );
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.item.itemPicture),
-                  fit: BoxFit.cover,
-                ),
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Add to cart",
+        ),
+        elevation: 0,
+        backgroundColor: buttonColor,
+      ),
+      body: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 150,
+            decoration: BoxDecoration(
+              //borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(widget.item.itemPicture),
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                widget.item.itemName,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              widget.item.itemName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                widget.item.itemDescription,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                Text(
+                  widget.item.itemDescription,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
+                const Spacer(),
+                Text(
+                  "RM ${widget.item.itemPrice}",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                children: [
-                  Text(
-                    "RM ${double.parse(widget.item.itemPrice).toStringAsFixed(2)}",
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (quantity > 1) {
+                      setState(() {
+                        quantity--;
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: buttonColor,
+                    ),
+                    child: const Icon(
+                      Icons.remove,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 45,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(color: buttonColor, width: 2),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    quantity.toString(),
                     style: const TextStyle(
-                      fontSize: 16,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const Spacer(),
-                  Row(children: [
-                    IconButton(
-                      onPressed: () {
-                        if (quantity > 1) {
-                          setState(() {
-                            quantity--;
-                          });
-                        }
-                      },
-                      icon: Icon(Icons.remove),
-                    ),
-                    Container(
-                      width: 80,
-                      height: 25,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: buttonColor),
-                      alignment: Alignment.center,
-                      child: Text(
-                        quantity.toString(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        if (quantity < 100) {
-                          setState(() {
-                            quantity++;
-                          });
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                      ),
-                    ),
-                  ]),
-                ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 20,
-              ),
-              child: Divider(
-                thickness: 1.5,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                "Customization",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
                 ),
-              ),
+                InkWell(
+                  onTap: () {
+                    if (quantity < 100) {
+                      setState(() {
+                        quantity++;
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: buttonColor,
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            ListView.builder(
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          /**
+           * Customization
+           */
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: custom.length,
                 itemBuilder: (context, index) {
                   if (custom[index]['id'] == widget.item.itemCategory) {
-                    isCheck.add(false);
+                    if (customizationList.isEmpty ||
+                        customizationList.length < custom.length) {
+                      customizationList.add(false);
+                    }
                     return Container(
-                      margin: const EdgeInsets.only(
-                        bottom: 10,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                      ),
+                      margin: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         children: [
                           InkWell(
                             onTap: () {
                               setState(() {
-                                isCheck[index] = !isCheck[index];
-                                customization =
+                                customizationList[index] =
+                                    !customizationList[index];
+
+                                getCustomization =
                                     custom[index]['custom'].toString();
                               });
                             },
@@ -177,63 +188,51 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                               width: 30,
                               height: 30,
                               decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                   border: Border.all(
-                                    width: 2,
-                                    color: Colors.black38,
-                                  ),
-                                  borderRadius: BorderRadius.circular(50)),
-                              alignment: Alignment.center,
-                              child: isCheck[index]
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: buttonColor,
-                                    )
+                                    color: Colors.black,
+                                  )),
+                              child: customizationList[index] == true
+                                  ? const Icon(Icons.check)
                                   : const SizedBox(),
                             ),
                           ),
                           const SizedBox(
                             width: 20,
                           ),
-                          Text(
-                            custom[index]['custom'].toString(),
-                          ),
+                          Text(custom[index]['custom'].toString()),
                         ],
                       ),
                     );
                   }
                   return const SizedBox();
                 }),
-            const SizedBox(
-              height: 20,
-            ),
-            GestureDetector(
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: InkWell(
               onTap: () {
-                Random random = new Random();
-                int randomNumber = random.nextInt(1000);
-                //add to cart
-                final cartModel2 = CartModel2(
-                  // cartId: randomNumber.toString(),
-                  username: '',
+                double totalPrice =
+                    double.parse(widget.item.itemPrice) * quantity;
+                final myCartModel = MyCartModel(
+                  itemPicture: widget.item.itemPicture,
+                  customization: getCustomization,
+                  itemDescription: widget.item.itemDescription,
+                  itemName: widget.item.itemName,
+                  itemPrice: widget.item.itemPrice,
                   quantity: quantity,
-                  customization: customization,
-                  uid: authController.user.uid,
-                  code: "1",
-                  foodName: widget.item.itemName,
-                  foodPic: widget.item.itemPicture,
-                  foodPrice: double.parse(widget.item.itemPrice),
+                  customerId: authController.user.uid,
+                  totalPrice: totalPrice.toStringAsFixed(2),
                   vendorId: widget.item.vendorId,
-                  pickupTime: '',
-                  isDineIn: true,
                 );
-                CartFirestore.addCart(cartModel2);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const UserHomeScreen()),
-                    (route) => false);
+                AddToMyCartFirestoreDb.addToMyCart(myCartModel);
+                Get.to(() => const UserHomeScreen());
               },
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
+                width: MediaQuery.of(context).size.width - 40,
                 height: 50,
                 decoration: BoxDecoration(
                   color: buttonColor,
@@ -251,9 +250,9 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                 ),
               ),
             ),
-          ],
-        )),
+          ),
+        ]),
       ),
-    );
+    ));
   }
 }

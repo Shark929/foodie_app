@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/user_controller.dart';
 import 'package:foodie_app/screens/users/screens/edit_profile_screen.dart';
 import 'package:foodie_app/screens/users/screens/order_history.dart';
-import 'package:foodie_app/screens/users/screens/user_order_history.dart';
 import 'package:get/get.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String uid;
-  UserProfileScreen({super.key, required this.uid});
+  const UserProfileScreen({super.key, required this.uid});
 
   @override
   State<UserProfileScreen> createState() => _ProfileScreensState();
 }
 
 class _ProfileScreensState extends State<UserProfileScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // profileController.updateUserId(widget.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,22 +42,36 @@ class _ProfileScreensState extends State<UserProfileScreen> {
                               ),
                               Align(
                                 alignment: Alignment.center,
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              vendorModel0.profilePicture),
-                                          fit: BoxFit.cover,
+                                child: vendorModel0.profilePicture == ""
+                                    ? Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color:
+                                              Color.fromARGB(255, 254, 204, 22),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          vendorModel0.username[0],
+                                          style: const TextStyle(
+                                              fontSize: 36,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 100,
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                vendorModel0.profilePicture),
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -121,16 +128,22 @@ class _ProfileScreensState extends State<UserProfileScreen> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Get.to(() => OrderHistoryScreen());
+                                  Get.to(() => const OrderHistoryScreen());
                                 },
-                                child: const Align(
+                                child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Order history",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        "Order history",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Icon(Icons.arrow_forward_ios),
+                                    ],
                                   ),
                                 ),
                               ),

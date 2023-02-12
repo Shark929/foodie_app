@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
-import 'package:foodie_app/controllers/location_controller.dart';
 import 'package:foodie_app/controllers/mall_controller.dart';
 import 'package:foodie_app/screens/users/screens/mall_screen.dart';
 import 'package:get/get.dart';
@@ -49,7 +48,9 @@ class LocationScreen extends StatelessWidget {
                             final lcModel0 = mcController.mall[index];
                             if (lcModel0.location == location) {
                               return ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  Get.to(() => MallScreen(mall: lcModel0.mall));
+                                },
                                 title: Text(lcModel0.mall),
                               );
                             }

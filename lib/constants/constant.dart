@@ -3,9 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/controllers/auth_controller.dart';
-import 'package:foodie_app/screens/users/screens/cart_screen_2.dart';
+import 'package:foodie_app/screens/users/screens/cart_screen3.dart';
 import 'package:foodie_app/screens/users/screens/home.dart';
-import 'package:foodie_app/screens/users/screens/order_screen.dart';
+import 'package:foodie_app/screens/users/screens/order_screen2.dart';
 import 'package:foodie_app/screens/users/screens/user_profile_screen.dart';
 import 'package:foodie_app/screens/users/screens/wallet_screen.dart';
 
@@ -32,16 +32,15 @@ var authController = AuthController.instance;
 //Pages
 List pages = [
   Home(),
-  OrderScreen(
-    id: authController.user.uid,
-  ),
+  // OrderScreen(
+  //   id: authController.user.uid,
+  // ),
+  const OrderScreen2(),
   UserWalletScreen(
     id: authController.user.uid,
   ),
-  CartScreen2(),
-  // CartScreen(
-  //   id: authController.user.uid,
-  // ),
+  const CartScreen3(),
+
   UserProfileScreen(
     uid: authController.user.uid,
   ),
@@ -83,25 +82,16 @@ const custom = [
   },
 ];
 
-//Location
 const location = [
-  "Cyberjaya",
-  "Dengkil",
-  "Klang",
-  "Kuala Selangor",
+  "Bukit Bintang",
   "Petaling Jaya",
-  "Banting",
-  "Cheras",
+  "KLCC",
 ];
-//Mall
+
 const mall = [
   "Pavilion",
-  "Setia City Mall",
-  "Sunway Pyramid",
-  "Mitsui Outlet Park",
-  "One Utama",
-  "IKEA",
-  "Subang Parade",
+  "Petaling Jaya Mall",
+  "Suria KLCC",
 ];
 
 const LocationList = [

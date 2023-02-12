@@ -237,6 +237,7 @@ class UserWalletScreen extends StatelessWidget {
                                 (TransactionController transactionController) {
                               return ListView.builder(
                                   shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount:
                                       transactionController.transaction.length,
                                   itemBuilder: (context, index) {

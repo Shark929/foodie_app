@@ -1,53 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
+import 'package:foodie_app/controllers/order_history_controller.dart';
+import 'package:get/get.dart';
 
-class OrderHistory extends StatelessWidget {
-  const OrderHistory({super.key});
+class OrderHistoryScreen extends StatelessWidget {
+  const OrderHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: const Text("Order History"),
+        title: const Text("Order history"),
         backgroundColor: buttonColor,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Text(orders[index]['order_number']),
-                      title: Text(orders[index]['item_name']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("X ${orders[index]['quantity']}"),
-                          Text(orders[index]['time']),
-                        ],
-                      ),
-                      trailing: Text(
-                        "RM ${orders[index]['total_price']}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    );
-                  }),
-            ],
-          ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            GetX<OrderHistoryController>(
+                init: Get.put(OrderHistoryController()),
+                builder: (OrderHistoryController ohController) {
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: ohController.orderHistory.length,
+                      itemBuilder: (context, index) {
+                        final ohModel = ohController.orderHistory[index];
+                        if (ohModel.customerId == authController.user.uid) {
+                          return Container(
+                            margin: const EdgeInsets.only(
+                              bottom: 10,
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: NetworkImage(ohModel.itemPicture),
+                                      fit: BoxFit.cover,
+                                    )),
+                              ),
+                              title: Text(ohModel.itemName),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("X${ohModel.quantity}"),
+                                  Text("RM ${ohModel.itemPrice}")
+                                ],
+                              ),
+                              trailing: Text(
+                                "RM ${ohModel.totalPrice}",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      });
+                })
+          ],
         ),
       ),
     ));

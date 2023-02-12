@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/item_controller.dart';
-import 'package:foodie_app/screens/users/screens/add_to_cart_screen.dart';
 import 'package:get/get.dart';
 
 class VendorScreen extends StatelessWidget {
@@ -31,9 +30,9 @@ class VendorScreen extends StatelessWidget {
                         if (itemModel0.vendorId == vendorId) {
                           return ListTile(
                             onTap: () {
-                              Get.to(() => AddToCartScreen(
-                                    item: itemModel0,
-                                  ));
+                              // Get.to(() => AddToCartScreen(
+                              //       item: itemModel0,
+                              //     ));
                             },
                             leading: Container(
                               width: 100,

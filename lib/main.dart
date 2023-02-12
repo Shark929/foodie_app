@@ -2,9 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodie_app/constants/constant.dart';
 import 'package:foodie_app/controllers/auth_controller.dart';
-import 'package:foodie_app/screens/home.dart';
-import 'package:foodie_app/screens/users/auth/login_screen.dart';
-import 'package:foodie_app/screens/users/auth/register_screen.dart';
+import 'package:foodie_app/widgets/splash_screen.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -28,7 +26,8 @@ class MyApp extends StatelessWidget {
         primaryColor: buttonColor,
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: Home(),
+      home: const SplashScreen(),
     );
   }
 }
+

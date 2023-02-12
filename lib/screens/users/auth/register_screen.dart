@@ -118,13 +118,6 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    // final userModel = UserModel(
-                    //     username: usernameController.text,
-                    //     email: emailController.text,
-                    //     phoneNum: phoneController.text,
-                    //     profilePicture: '');
-                    // UserFirestoreDb.addUser(userModel);
-
                     authController.registerUser(
                         username: usernameController.text,
                         email: emailController.text,
